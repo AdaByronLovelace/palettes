@@ -1,0 +1,21 @@
+{
+  "name": "palettes",
+  "version": "1.0.0",
+  "description": "dynamically generated color palettes",
+  "main": "script.js",
+  "dependencies": {
+    "chibijs": "^3.0.9",
+    "chroma-js": "^2.1.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdaByronLovelace/palettes.git"
+  },
+  "author": "Emily Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdaByronLovelace/palettes/issues"
+  },
+  "homepage": "https://github.com/AdaByronLovelace/palettes#readme"
+}
