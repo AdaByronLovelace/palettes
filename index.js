@@ -23,11 +23,12 @@ let makePalettes = function() {
 	return palettes
 }
 let makeRow = function(numItems, sqrSize, colors) {
-	let row = `<div class="row row-${sqrSize}">`
+	//let row = `<div class="row row-${sqrSize}">`
+	let row = ""
 	for (let i=0;i<numItems;i++) {
-		row += `<div class="sqr" style="background-color:${colors[i]}">&nbsp;</div>`
+		row += `<div class="sqr s-${sqrSize}" style="background-color:${colors[i]}">&nbsp;</div>`
 	}
-	row += "</div>"
+	//row += "</div>"
 	return row
 }
 
