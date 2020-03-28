@@ -2,10 +2,10 @@
   "name": "palettes",
   "version": "1.0.0",
   "description": "dynamically generated color palettes",
-  "main": "script.js",
+  "main": "index.js",
   "dependencies": {
     "chibijs": "^3.0.9",
-    "chroma-js": "^2.1.0"
+    "tinycolor2": "^1.4.1"
   },
   "devDependencies": {},
   "repository": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/AdaByronLovelace/palettes#readme",
   "scripts": {
-    "start": "watchify script.js -o bundle.js"
+    "start": "watchify index.js -o bundle.js"
   }
 }
