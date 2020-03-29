@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/AdaByronLovelace/palettes/issues"
   },
-  "homepage": "https://github.com/AdaByronLovelace/palettes#readme",
+  "homepage": "https://adabyronlovelace.github.io/palettes/",
   "scripts": {
     "start": "watchify index.js -o bundle.js"
   }
