@@ -57,41 +57,61 @@ body {
 }
 
 .palette {
+  width: 100vw;
+  padding: 10px 0;
+}
+
+.palette .content {
+  width: 100%;
   display: flex;
-  min-width: 400px;
-  max-width: 100vw;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
   flex-direction: column;
-  padding: 20px;
+  width: 25vw;
 }
 
 .row {
   display: flex;
+  flex-direction: row;
+}
+
+.bottom {
+  width: 100%;
 }
 
 .sqr {
-  flex-grow: 1;
-  margin: 3px 6px 3px 0;
-  height: 13vw;
+  width: 100%;
 }
 
-.sqr:last-child {
-  margin-right: 0;
+.sqr.sm {
+  height: 40vh;
 }
 
-.row-md .sqr {
-  height: 10vw;
+.sqr.md {
+  height: 40vh;
 }
 
-.row-sm .sqr {
-  height: 9vw;
+.sqr.lg {
+  height: 40vh;
+}
+
+.sqr.pillar {
+  height: 100%;
+}
+
+.sqr.line {
+  height: 20vh;
 }
 
 h2 {
   padding: 0;
-  margin-bottom: -11px;
   font-size: 2.5rem;
   font-weight: bolder;
   text-transform: uppercase;
+  text-align: center;
 }
 
 h1 {
@@ -99,5 +119,11 @@ h1 {
   font-weight: 900;
   text-align: center;
   margin: 30px 0;
-  text-shadow: 2px 2px 8px grey;
+  text-shadow: 2px 2px 8px rgb(123, 25, 25);
+}
+
+.thing {
+  color: #7e1111;
+  color: #134370;
+  color:#264704;
 }
