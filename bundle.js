@@ -7,46 +7,59 @@ require('chibijs')
 let getRand = function(range) {
 	return Math.ceil(Math.random() * range)
 }
-let makePalettes = function() {
-	let palettes = []
-	let names = ["ahead-border", "unpopular-drawing", "flippant-finger", "ethereal-water", "irritating-rainbow", "crushing-flight", "overdue-unicorn", "wistful-dragon", "mundane-mountain", "wacky-session", "defiant-wind", "showy-pain", "impish-convert", "mealy-habit", "physical-caress", "infamous-guess", "ossified-month", "queasy-chemical", "unwieldy-accident", "grubby-split", "malicious-lake", "violent-excuse", "reluctant-blame", "careful-hour", "faulty-action", "watery-excuse", "reckless-stable", "perky-statement", "skillful-simple", "possible-standard", "earthy-shower", "oily-argument", "far-spiritual", "dim-breath", "godly-chair", "fretful-progress", "insidious-bath", "caustic-medium", "impossible-flow", "ultimate-mixture", "stupendous-night", "disfigured-raw", "stale-wolf", "popular-revenue", "bustling-pie", "brainy-disk", "starry-winner", "placid-lady", "deeply-cry", "junior-bug"]
-	names.forEach((name) => {
-		let result = {name: name, colors:{lg:[], md:[], sm:[]}}
-		let primary = tinycolor.random()
-		result.colors.lg.push(primary.toHexString())
-		result.colors.lg.push(primary.complement().saturate(getRand(100)).toHexString())
-		result.colors.md = primary.splitcomplement().map(t => { return t.toHexString()})
-		let random = 
-		result.colors.sm = primary.analogous().map(t => { return t.spin(getRand(360)).toHexString()})
-		result.background = primary.isDark() ? "#ffffff" : "#000000"
-		palettes.push(result)
-	})
-	return palettes
-}
-let makeRow = function(numItems, sqrSize, colors) {
-	let row = `<div class="row row-${sqrSize}">`
-	for (let i=0;i<numItems;i++) {
-		row += `<div class="sqr" style="background-color:${colors[i]}">&nbsp;</div>`
-	}
-	row += "</div>"
-	return row
-}
 
 // Doc Ready
 $().ready(function() {
-	// Append all palettes to container
-	let PALETTES = makePalettes()
-	for (let i=0;i<PALETTES.length;i++) {
-		let name = PALETTES[i].name
-		let textcolor = tinycolor(PALETTES[i].background).isDark() ? "#FFFFFF" : "#000000"
-		$(".container").htmlAppend(`<div class="palette ${name}"  style="background-color:${PALETTES[i].background};color:${textcolor}"><h2>${name}</h2></div>`)
-		let $palette = $(`.${name}`)
-		$palette.htmlAppend(makeRow(2,'lg', PALETTES[i].colors.lg))
-		$palette.htmlAppend(makeRow(3,'md', PALETTES[i].colors.md))
-		$palette.htmlAppend(makeRow(5,'sm', PALETTES[i].colors.sm))
-	}
+	palettes.forEach((palette, i) => {
+		let name = palette.name
+		let textcolor = tinycolor(palette.colors[0]).isLight() ? "#FFFFFF" : "#000000"
+		let background = tinycolor(textcolor).isDark() ? "#FFFFFF" : "#000000"
+		// original colors
+		let col1 = palette.colors[0]
+		let col2 = palette.colors[1]
+		let col3 = palette.colors[2]
+		// second version of color 3
+		let col4 = tinycolor(col3).tetrad()[1].toHexString()
+		// three versions of 180 from color 3
+		let col5 = tinycolor(col3).spin(180).toHexString()
+		let col6 = tinycolor(col5).analogous()[1].toHexString()
+		let col7 = tinycolor(col5).analogous()[5].toHexString()
+		$(".container").htmlAppend(`<div class="palette ${name}"  style="background-color:${background}; color:${textcolor}">
+			<h2>${name}</h2>
+			<div class="content"></div>
+		</div>`)
+		let $palette = $(`.${name} .content`)
+		$palette.htmlAppend(`
+		<div class="col">
+			<div class="sqr lg" style="background-color:${col1}">&nbsp;</div>
+			<div class="sqr lg" style="background-color:${col2}">&nbsp;</div>
+		</div>`)
+		$palette.htmlAppend(`
+		<div class="col">
+			<div class="sqr pillar" style="background-image:linear-gradient(${col1},${col2})">&nbsp;</div>
+		</div>`)
+		$palette.htmlAppend(`
+		<div class="col">
+			<div class="sqr pillar" style="background-image:linear-gradient(${col3},${col4})">&nbsp;</div>
+		</div>`)
+		$palette.htmlAppend(`
+		<div class="col">
+			<div class="row">
+				<div class="sqr md" style="background-color:${col3}">&nbsp;</div>
+				<div class="sqr md" style="background-color:${col4}">&nbsp;</div>
+			</div>
+			<div class="row">
+				<div class="sqr sm" style="background-color:${col5}">&nbsp;</div>
+				<div class="sqr sm" style="background-color:${col6}">&nbsp;</div>
+				<div class="sqr sm" style="background-color:${col7}">&nbsp;</div>
+			</div>
+		</div>`)
+		$(`.${name}`).htmlAppend(`<div class="sqr line" style="background-image:linear-gradient(to right, ${col1},${col2},${col3},${col4},${col5},${col6},${col7})"></div>`)
+	})
 })
 
+let palettes = [{name:"dionysus-encounter", colors:["#7e1111", "#134370", "#264704"]}, {name: "unpopular-drawing", colors:["#6a8a82", "#a37c27", "#a7414a"]}, {name: "flippant-finger", colors:["#0444bf", "#0aaff1", "#edf259"]}, {name: "ethereal-water", colors:["#f3cd05", "#36688d", "#bda589"]}, {name: "irritating-rainbow", colors:["#f05837", "#f3e96b", "#6465a5"]}, {name: "crushing-flight", colors:["#aba6bf", "#595775", "#583e3e"]}, {name: "overdue-unicorn", colors:["#192e5b", "#00743f", "#f2a104"]}, {name: "wistful-dragon", colors:["#132226", "#be9063", "#525b56"]}, {name: "mundane-mountain", colors:["#a4a4bf", "#2a3457", "#888c46"]}, {name: "strange-accident", colors:["#de8cf0", "#bed905", "#93a806"]}, {name: "defiant-wind", colors:["#a3586d", "#f3b05a", "#f46a4e"]}, {name: "showy-pain", colors:["#80add7", "#d4dca9", "#bf9d7a"]}, {name: "impish-convert", colors:["#d661bf", "#f1931b", "#8f715b"]}, {name: "physical-caress", colors:["#270101", "#720017", "#d9ac2a"]}, {name: "infamous-guess", colors:["#c1403d", "#a79c93", "#0294a5"]}, {name: "malicious-lake", colors:["#212027", "#f22f08", "#8d2f23"]}, {name: "violent-excuse", colors:["#6c6b74", "#9199be", "#2e303e"]}, {name: "careful-hour", colors:["#522e75", "#52591f", "#714e3d"]}, {name: "simple-somber", colors:["#f8ed71", "#383140", "#cac7d7"]}, {name: "dim-breath", colors:["#776b04", "#704404", "#423a01"]}, {name: "godly-chair", colors:["#0878a4", "#edd170", "#c05640"]}, {name: "fretful-progress", colors:["#5c3d46", "#5c868d", "#e7f5de"]}, {name: "insidious-night", colors:["#121f40", "#bd3e85", "#d59b2d"]}, {name: "hungry-wolf", colors:["#8d2d56", "#2b193e", "#d53c3c"]}, {name: "placid-lady", colors:["#d50b53", "#824ca7", "#b9c406"]}
+]
 },{"chibijs":2,"tinycolor2":3}],2:[function(require,module,exports){
 /*!chibi 3.0.9, Copyright 2012-2017 Kyle Barrow, released under MIT license */
 !function(){"use strict";function e(){var e;for(h=!0,e=0;e<d.length;e+=1)d[e]();d=[]}function t(){var t;for(y=!0,h||e(),t=0;t<p.length;t+=1)p[t]();p=[]}function n(e,t){var n;for(n=t.length-1;n>=0;n-=1)e(t[n])}function r(e){return e.replace(/-\w/g,function(e){return e.charAt(1).toUpperCase()})}function a(e,t){return e.currentStyle?e.currentStyle[r(t)]:v.getComputedStyle?v.getComputedStyle(e,null).getPropertyValue(t):null}function o(e,t){return encodeURIComponent(e).replace(/%20/g,"+")+"="+encodeURIComponent(t).replace(/%20/g,"+")}function c(e,t,n){try{e.style[r(t)]=n}catch(e){console.error('Could not set css style property "'+t+'".')}}function s(e){e.style.display="","none"===a(e,"display")&&(e.style.display="block")}function i(e){var t,r,a,c="";if(e.constructor===Object){for(t in e)if(e.hasOwnProperty(t))if(e[t].constructor===Array)for(r=0;r<e[t].length;r+=1)c+="&"+o(t,e[t][r]);else c+="&"+o(t,e[t])}else n(function(e){if("FORM"===e.nodeName)for(r=0;r<e.elements.length;r+=1)if(!(t=e.elements[r]).disabled)switch(t.type){case"button":case"image":case"file":case"submit":case"reset":break;case"select-one":t.length>0&&(c+="&"+o(t.name,t.value));break;case"select-multiple":for(a=0;a<t.length;a+=1)t[a].selected&&(c+="&"+o(t.name,t[a].value));break;case"checkbox":case"radio":t.checked&&(c+="&"+o(t.name,t.value));break;default:c+="&"+o(t.name,t.value)}},e);return c.length>0?c.substring(1):""}function u(e,t,r){var a,o,c,s,i=!1;return e&&(a=e.split(/\s+/),n(function(e){for(s=0;s<a.length;s+=1)if(o=new RegExp("\\b"+a[s]+"\\b","g"),c=new RegExp(" *"+a[s]+"\\b","g"),"remove"===t)e.className=e.className.replace(c,"");else if("toggle"===t)e.className=e.className.match(o)?e.className.replace(c,""):e.className+" "+a[s];else if("has"===t&&e.className.match(o)){i=!0;break}},r)),i}function l(e,t,r){var a,o;e&&n(function(n){for((a=g.createElement("div")).innerHTML=e;null!==(o=a.lastChild);)try{"before"===t?n.parentNode.insertBefore(o,n):"after"===t?n.parentNode.insertBefore(o,n.nextSibling):"append"===t?n.appendChild(o):"prepend"===t&&n.insertBefore(o,n.firstChild)}catch(e){break}},r)}function f(e){var t,o,E,T=[],b=!1;if(e)if(e.nodeType&&1===e.nodeType)T=[e];else if("object"==typeof e)b="number"!=typeof e.length,T=e;else if("string"==typeof e)for(g.querySelectorAll||(g.querySelectorAll=function(e){var t,n,r,o=g.getElementsByTagName("head")[0],c=[];if(t=g.createElement("STYLE"),t.type="text/css",t.styleSheet){for(t.styleSheet.cssText=e+" {a:b}",o.appendChild(t),n=g.getElementsByTagName("*"),r=0;r<n.length;r+=1)"b"===a(n[r],"a")&&c.push(n[r]);o.removeChild(t)}return c}),o=g.querySelectorAll(e),E=0;E<o.length;E+=1)T[E]=o[E];return t=b?{}:T,t.ready=function(e){if(e){if(h)return e(),t;d.push(e)}},t.loaded=function(e){if(e){if(y)return e(),t;p.push(e)}},t.each=function(e){return"function"==typeof e&&n(function(t){return e.apply(t,arguments)},T),t},t.first=function(){return f(T.shift())},t.last=function(){return f(T.pop())},t.odd=function(){var e,t=[];for(e=0;e<T.length;e+=2)t.push(T[e]);return f(t)},t.even=function(){var e,t=[];for(e=1;e<T.length;e+=2)t.push(T[e]);return f(t)},t.hide=function(){return n(function(e){e.style.display="none"},T),t},t.show=function(){return n(function(e){s(e)},T),t},t.toggle=function(){return n(function(e){"none"===a(e,"display")?s(e):e.style.display="none"},T),t},t.remove=function(){return n(function(e){try{e.parentNode.removeChild(e)}catch(e){}},T),f()},t.css=function(e,o){if(e){if(o||""===o)return n(function(t){c(t,e,o)},T),t;if(T[0]){if(T[0].style[r(e)])return T[0].style[r(e)];if(a(T[0],e))return a(T[0],e)}}},t.getClass=function(){if(T[0]&&T[0].className.length>0)return T[0].className.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,"").replace(/\s+/," ")},t.setClass=function(e){return(e||""===e)&&n(function(t){t.className=e},T),t},t.addClass=function(e){return e&&n(function(t){t.className+=" "+e},T),t},t.removeClass=function(e){return u(e,"remove",T),t},t.toggleClass=function(e){return u(e,"toggle",T),t},t.hasClass=function(e){return u(e,"has",T)},t.html=function(e){return e||""===e?(n(function(t){t.innerHTML=e},T),t):T[0]?T[0].innerHTML:void 0},t.htmlBefore=function(e){return l(e,"before",T),t},t.htmlAfter=function(e){return l(e,"after",T),t},t.htmlAppend=function(e){return l(e,"append",T),t},t.htmlPrepend=function(e){return l(e,"prepend",T),t},t.attr=function(e,r){if(e){if(e=e.toLowerCase(),r||""===r)return n(function(t){"style"===e?t.style.cssText=r:"class"===e?t.className=r:t.setAttribute(e,r)},T),t;if(T[0])if("style"===e){if(T[0].style.cssText)return T[0].style.cssText}else if("class"===e){if(T[0].className)return T[0].className}else if(T[0].getAttribute(e))return T[0].getAttribute(e)}},t.data=function(e,n){if(e)return t.attr("data-"+e,n)},t.val=function(e){var r,a,o;if(e||""===e)return n(function(t){switch(t.nodeName){case"SELECT":for("string"!=typeof e&&"number"!=typeof e||(e=[e]),a=0;a<t.length;a+=1)for(o=0;o<e.length;o+=1)if(t[a].selected="",t[a].value===e[o]){t[a].selected="selected";break}break;case"INPUT":case"TEXTAREA":case"BUTTON":t.value=e}},T),t;if(T[0])switch(T[0].nodeName){case"SELECT":for(r=[],a=0;a<T[0].length;a+=1)T[0][a].selected&&r.push(T[0][a].value);return r.length>1?r:r[0];case"INPUT":case"TEXTAREA":case"BUTTON":return T[0].value}},t.checked=function(e){return"boolean"==typeof e?(n(function(t){"INPUT"!==t.nodeName||"checkbox"!==t.type&&"radio"!==t.type||(t.checked=e)},T),t):!T[0]||"INPUT"!==T[0].nodeName||"checkbox"!==T[0].type&&"radio"!==T[0].type?void 0:!!T[0].checked},t.on=function(r,a){return e!==v&&e!==g||(T=[e]),n(function(e){g.addEventListener?e.addEventListener(r,a,!1):g.attachEvent&&(e[r+a]=function(){return a.apply(e,arguments)},e.attachEvent("on"+r,e[r+a]))},T),t},t.off=function(r,a){return e!==v&&e!==g||(T=[e]),n(function(e){g.addEventListener?e.removeEventListener(r,a,!1):g.attachEvent&&(e.detachEvent("on"+r,e[r+a]),e[r+a]=null)},T),t},t.ajax=function(e,n,r,a,o){var c,s,u=i(T),l=n?n.toUpperCase():"GET",f=new RegExp("http[s]?://(.*?)/","gi").exec(e),d="_ts="+ +new Date,p=g.getElementsByTagName("head")[0],h="chibi"+ +new Date+(m+=1);return!u||"GET"!==l&&"DELETE"!==l||(e+=-1===e.indexOf("?")?"?"+u:"&"+u,u=null),"GET"===l&&!o&&f&&v.location.host!==f[1]?(a&&(e+=-1===e.indexOf("?")?"?"+d:"&"+d),e=e.replace("=%3F","=?"),r&&-1!==e.indexOf("=?")&&(e=e.replace("=?","="+h),v[h]=function(e){try{r(e,200)}catch(e){}v[h]=void 0}),(s=document.createElement("script")).async=!0,s.src=e,s.onload=function(){p.removeChild(s)},p.appendChild(s)):(v.XMLHttpRequest?c=new XMLHttpRequest:v.ActiveXObject&&(c=new ActiveXObject("Microsoft.XMLHTTP")),c&&(a&&(e+=-1===e.indexOf("?")?"?"+d:"&"+d),c.open(l,e,!0),c.onreadystatechange=function(){4===c.readyState&&r&&r(c.responseText,c.status)},c.setRequestHeader("X-Requested-With","XMLHttpRequest"),"POST"!==l&&"PUT"!==l||c.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),c.send(u))),t},t.get=function(e,n,r,a){return t.ajax(e,"get",n,r,a)},t.post=function(e,n,r){return t.ajax(e,"post",n,r)},t}var d=[],p=[],h=!1,y=!1,m=0,g=document,v=window;g.addEventListener?(g.addEventListener("DOMContentLoaded",e,!1),v.addEventListener("load",t,!1)):g.attachEvent?(g.attachEvent("onreadystatechange",e),v.attachEvent("onload",t)):v.onload=t,v.$=f}();
