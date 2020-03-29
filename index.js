@@ -35,11 +35,11 @@ $().ready(function() {
 		</div>`)
 		$palette.htmlAppend(`
 		<div class="col">
-			<div class="sqr pillar" style="background-image:linear-gradient(${col1},${col2})">&nbsp;</div>
+			<div class="sqr pillar" style="background-image:linear-gradient(to right,${col1},${col2})">&nbsp;</div>
 		</div>`)
 		$palette.htmlAppend(`
 		<div class="col">
-			<div class="sqr pillar" style="background-image:linear-gradient(${col3},${col4})">&nbsp;</div>
+			<div class="sqr pillar" style="background-image:linear-gradient(to right,${col3},${col4})">&nbsp;</div>
 		</div>`)
 		$palette.htmlAppend(`
 		<div class="col">
