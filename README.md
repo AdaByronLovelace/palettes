@@ -2,7 +2,7 @@
 
 A Javascript project to visualize color palettes. 
 
-Three color palettes are expanded upon using tinycolor color manipulation. 
+Three colors that go well togehter are used to create a palette of multiplecolors using tinycolor color manipulation. 
 
 https://www.npmjs.com/package/tinycolor2
 
